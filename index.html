@@ -8,8 +8,10 @@
   <body>
     <div id="wrapper">
       <div id="add_product_form">
+        
         <label for="product_sku">
           <span>Product SKU</span>
+          <input type="text" id="hiddenid" hidden>
           <input type="text" name="product_sku" id="product_sku" />
         </label>
         <label for="product_name">
@@ -30,6 +32,14 @@
             name="add_product"
             id="add_product"
             value="Add Product"
+          />
+        </p>
+        <p class="submit"> 
+          <input
+            type="button"
+            name="update_product"
+            id="update_product"
+            value="Update Product"
           />
         </p>
       </div>
@@ -75,6 +85,7 @@
       </div>
     </div>
     <script>
+      $("#update_product").hide();
       var items=[];
       $("#add_product").on('click',function(){
         var sku=$("#product_sku").val();
@@ -124,6 +135,42 @@
         $(document).on("click", ".del" , function(){
           $(this).parents("tr").remove()
         });
+        $(document).on("click",".edit",function(){
+          var id=this.id;
+          console.log(id);
+          var data=items[id];
+          $("#hiddenid").val(`${id}`);
+          $("#product_sku").val(`${data.sku1}`)
+          $("#product_name").val(`${data.name1}`)
+          $("#product_price").val(`${data.price1}`)
+          $("#product_quantity").val(`${data.quantity1}`)
+          $("#update_product").fadeIn()
+          $("#add_product").fadeOut()
+  
+        });
+        $("#update_product").on("click",function(){
+          var id= $("#hiddenid").val();
+          var info1=items[id];
+
+          console.log(info1);
+          info1.sku1=$("#product_sku").val();
+          info1.name1=$("#product_name").val();
+          info1.price1=$("#product_price").val();
+          info1.quantity1=$("#product_quantity").val();
+
+          display();
+          $("#product_sku").val("");
+          $("#product_name").val("");
+          $("#product_price").val("");
+          $("#product_quantity").val("");
+
+          $("#update_product").fadeOut()
+          $("#add_product").fadeIn()
+          
+
+
+
+        })
 
     </script>
   </body>
